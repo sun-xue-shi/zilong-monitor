@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sdk-test</title>
+  </head>
+  <body>
+    <!-- <script>
+      (function () {
+        const script = document.createElement("script");
+        script.src = "../zilong-monitor/dist/zilong-monitor.js";
+        const body = document.body;
+        body.insertBefore(script, body.firstChild);
+        script.onload = function () {
+          const event = new CustomEvent("ZilongMonitoor");
+          window.dispatchEvent(event);
+        };
+      })();
+    </script> -->
+    <script>
+      //   window.addEventListener("ZilongMonitoor", () => {
+      //     window.ZiLongMonitor.collect();
+      //     window.ZiLongMonitor.report();
+      //   });
+
+      window.onload = () => {
+        window.ZiLongMonitor.collect();
+        window.ZiLongMonitor.report();
+      };
+    </script>
+  </body>
+</html>
