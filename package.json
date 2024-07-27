@@ -1,0 +1,17 @@
+{
+  "name": "zilong-monitor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/zilong-monitor.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "clean-webpack-plugin": "^4.0.0",
+    "webpack": "^5.93.0",
+    "webpack-cli": "^5.1.4"
+  }
+}
