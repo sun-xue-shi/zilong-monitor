@@ -2,10 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta appId="123" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>sdk-test</title>
   </head>
-  <body>
+
+  <body pageId="123456">
     <!-- <script>
       (function () {
         const script = document.createElement("script");
@@ -19,14 +21,8 @@
       })();
     </script> -->
     <script>
-      //   window.addEventListener("ZilongMonitoor", () => {
-      //     window.ZiLongMonitor.collect();
-      //     window.ZiLongMonitor.report();
-      //   });
-
       window.onload = () => {
-        window.ZiLongMonitor.collect();
-        window.ZiLongMonitor.report();
+        window.ZiLongMonitor.sendPV();
       };
     </script>
   </body>

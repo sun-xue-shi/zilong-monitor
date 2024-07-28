@@ -1,14 +1,7 @@
-import collect from "./collect";
-import report from "./report";
-
-console.log("load");
+import { sendPV } from "./collect";
+import { report } from "./report";
 
 window.ZiLongMonitor = {
-  collect,
   report,
-};
-
-export default {
-  collect,
-  report,
+  sendPV,
 };
