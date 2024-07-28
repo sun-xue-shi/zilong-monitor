@@ -22,7 +22,24 @@
     </script> -->
     <script>
       window.onload = () => {
-        window.ZiLongMonitor.sendPV();
+        const monitor = window.ZiLongMonitor;
+        monitor.registerBeforeCreateParams(() => {
+          console.log(555);
+        });
+
+        monitor.registerBeforeReport((params) => {
+          return params + "&custom=111";
+        });
+
+        monitor.registerAfterReport((url, reportData) => {
+          console.log("registerAfterReport", url, reportData);
+        });
+
+        monitor.registerHandleError((e) => {
+          console.log("registerHandleError", e);
+        });
+
+        monitor.sendPV();
       };
     </script>
   </body>

@@ -1,15 +1,22 @@
 /**
  * 数据上报
- * @param {*} data 上报数据
+ * @param {*} params 上报数据
  * @param {*} option 附加选项
  */
-export function report(data, option = {}) {
+export function report(params, option = {}) {
   let img = new Image();
-  console.log(encodeURIComponent(data));
-  const params = encodeURIComponent(data);
+
   const { eventType = "PV" } = option;
-  const src = "http://www.imooc.com?data=" + params + "&eventType=" + eventType;
+  const paramStr = params + "&eventType=" + eventType;
+  const src = "http://www.imooc.com?" + paramStr;
   console.log(src);
   img.src = src;
   img.src = null;
+
+  return {
+    url: src,
+    reportData: {
+      params: paramStr,
+    },
+  };
 }
