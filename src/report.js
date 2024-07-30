@@ -6,12 +6,11 @@
 export function report(params, option = {}) {
   let img = new Image();
 
-  const { eventType = "PV" } = option;
+  const { eventType } = option;
   const paramStr = params + "&eventType=" + eventType;
   const src = "http://www.imooc.com?" + paramStr;
-  console.log(src);
   img.src = src;
-  img.src = null;
+  img.src = "";
 
   return {
     url: src,

@@ -13,11 +13,12 @@ let handleError = (e) => {
   console.log(e);
 };
 
-export function sendPV() {
+export function collect(customData, eventType) {
   let appId, params, reportData, url;
 
   beforeCreateParams && beforeCreateParams();
 
+  /**appId */
   const metaList = document.getElementsByTagName("meta");
   for (let i = 0; i < metaList.length; i++) {
     const meta = metaList[i];
@@ -31,25 +32,42 @@ export function sendPV() {
     pageId: document.body.getAttribute("pageId"),
     ua: window.navigator.userAgent,
     timestamp: new Date().getTime(),
+    ...customData,
   };
+
+  console.log(data);
 
   if (!data.appId || !data.pageId) return;
 
   params = qs.stringify(data);
+  /**上报前钩子 */
   if (beforeReport) {
     params = beforeReport(params);
   }
 
+  /**PV上报 */
   try {
-    const res = report(params);
+    const res = report(params, { eventType });
     reportData = res.reportData;
     url = res.url;
-    throw Error("111");
   } catch (error) {
     handleError(error);
   } finally {
+    /**上报后钩子 */
     afterReport && afterReport(url, reportData);
   }
+}
+
+export function sendPV() {
+  collect({}, "PV");
+}
+
+export function sentExpose(data = {}) {
+  collect(data, "EXP");
+}
+
+export function sentClick(data = {}) {
+  collect(data, "CLICK");
 }
 
 export function registerBeforeCreateParams(fn) {
@@ -66,4 +84,39 @@ export function registerAfterReport(fn) {
 
 export function registerHandleError(fn) {
   handleError = fn;
+}
+
+export function collectAppear() {
+  const appearEvent = new CustomEvent("onAppear");
+  const disappearEvent = new CustomEvent("onDisappear");
+  const appear = document.querySelectorAll("[appear]");
+
+  let ob;
+  if (window.MonitorObserver) {
+    ob = window.MonitorObserver;
+  } else {
+    ob = new IntersectionObserver((e) => {
+      e.forEach((e) => {
+        if (e.intersectionRatio > 0) {
+          console.log(e.target.className + "appear");
+          e.target.dispatchEvent(appearEvent);
+        } else {
+          console.log(e.target.className + "disappear");
+          e.target.dispatchEvent(disappearEvent);
+        }
+      });
+    });
+  }
+
+  let obList = [];
+
+  for (let i = 0; i < appear.length; i++) {
+    if (!obList.includes(appear[i])) {
+      ob.observe(appear[i]);
+      obList.push(appear[i]);
+    }
+  }
+
+  window.MonitorObserver = ob;
+  window.MonitorObserverList = obList;
 }

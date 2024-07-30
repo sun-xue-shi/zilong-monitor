@@ -4,8 +4,14 @@ import {
   registerBeforeReport,
   registerHandleError,
   sendPV,
+  sentExpose,
+  collectAppear,
 } from "./collect";
 import { report } from "./report";
+
+window.onload = () => {
+  collectAppear();
+};
 
 window.ZiLongMonitor = {
   report,
@@ -14,4 +20,6 @@ window.ZiLongMonitor = {
   registerBeforeCreateParams,
   registerBeforeReport,
   registerHandleError,
+  sentExpose,
+  collectAppear,
 };

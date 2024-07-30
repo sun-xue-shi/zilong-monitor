@@ -6,8 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>sdk-test</title>
   </head>
-
+  <script>
+    const addDom = () => {
+      const body = document.body;
+      const div = document.createElement("div");
+      div.innerHTML = "66666";
+      div.style = "background-color: yellowgreen";
+      div.className = "newDom";
+      div.setAttribute("appear", "");
+      body.insertBefore(div, body.firstChild);
+      window.ZiLongMonitor.collectAppear();
+    };
+  </script>
   <body pageId="123456">
+    <!-- 曝光埋点 不可见变为可见(最初未渲染) -->
+    <button onclick="addDom()">click</button>
+    <div style="height: 1000px; background-color: antiquewhite">55</div>
+    <!-- 曝光埋点 不可见变为可见(最初已经渲染) -->
+    <div
+      class="demo2"
+      style="height: 100px; background-color: yellowgreen"
+      appear
+    >
+      66
+    </div>
     <!-- <script>
       (function () {
         const script = document.createElement("script");
@@ -21,10 +43,22 @@
       })();
     </script> -->
     <script>
+      document
+        .getElementsByClassName("demo2")[0]
+        .addEventListener("onAppear", () => {
+          window.ZiLongMonitor.sentExpose({ one: 111 });
+        });
+
+      document
+        .getElementsByClassName("demo2")[0]
+        .addEventListener("onDisappear", () => {
+          console.log("onDisappear");
+        });
+
       window.onload = () => {
         const monitor = window.ZiLongMonitor;
         monitor.registerBeforeCreateParams(() => {
-          console.log(555);
+          // console.log(555);
         });
 
         monitor.registerBeforeReport((params) => {
