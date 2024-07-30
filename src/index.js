@@ -6,6 +6,7 @@ import {
   sendPV,
   sentExpose,
   collectAppear,
+  sentClick,
 } from "./collect";
 import { report } from "./report";
 
@@ -22,4 +23,5 @@ window.ZiLongMonitor = {
   registerHandleError,
   sentExpose,
   collectAppear,
+  sentClick,
 };

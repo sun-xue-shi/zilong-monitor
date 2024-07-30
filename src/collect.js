@@ -14,7 +14,7 @@ let handleError = (e) => {
 };
 
 export function collect(customData, eventType) {
-  let appId, params, reportData, url;
+  let appId, params, reportData, url, currentUrl;
 
   beforeCreateParams && beforeCreateParams();
 
@@ -29,6 +29,7 @@ export function collect(customData, eventType) {
 
   const data = {
     appId,
+    currentUrl: window.location.href,
     pageId: document.body.getAttribute("pageId"),
     ua: window.navigator.userAgent,
     timestamp: new Date().getTime(),
@@ -58,16 +59,35 @@ export function collect(customData, eventType) {
   }
 }
 
+/**
+ * PV上报
+ */
 export function sendPV() {
   collect({}, "PV");
 }
 
+/**
+ * 曝光埋点上报
+ * @param {*} data
+ */
 export function sentExpose(data = {}) {
   collect(data, "EXP");
 }
 
+/**
+ * 点击埋点上报
+ * @param {*} data 自定义上报数据
+ */
 export function sentClick(data = {}) {
   collect(data, "CLICK");
+}
+
+/**
+ * 自定义埋点上报
+ * @param {*} data
+ */
+export function sentCustom(data = {}) {
+  collect(data, "CUSTOM");
 }
 
 export function registerBeforeCreateParams(fn) {
